@@ -1,6 +1,6 @@
 # Configurar monitor OSD
 
-Procedimento para instalar o utilitário que permite configurar as opções internas dos monitores, como brilho, contraste, cores, etc.
+Procedimento para instalar o utilitário que permite configurar as opções internas dos monitores como brilho, contraste, etc.
 
 * O monitor deve estar ligado diretamente pela porta VGA.
 
