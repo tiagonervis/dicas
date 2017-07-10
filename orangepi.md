@@ -125,6 +125,7 @@ $make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modul
 ```
 # make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH=../rootfs
 # make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- firmware_install INSTALL_FW_PATH=../rootfs/lib/firmware
+```
 
 9. Caso queira compilar os cabeçalhos do kernel:
 
