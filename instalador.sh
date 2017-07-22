@@ -38,6 +38,11 @@ echo "--------------------------------------------"
 apt-get install --yes gimp vlc xfburn pavucontrol gparted evince gnome-screenshot synaptic cups system-config-printer lxsession-default-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good lxhotkey-plugin-openbox xsane
 
 echo "--------------------------------------------"
+echo "Desabilitar decorador de janela do GTK3..."
+echo "--------------------------------------------"
+apt-get install --yes gtk3-nocsd
+
+echo "--------------------------------------------"
 echo "Instalando Libreoffice..."
 echo "--------------------------------------------"
 apt-get install --yes libglu1-mesa
