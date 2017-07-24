@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Script de autoinstalacao 0.9"
+echo "Script de autoinstalacao 0.10"
 
 echo "--------------------------------------------"
 echo "Adicionar repositorios contrib e non-free..."
@@ -20,7 +20,7 @@ apt-get install --yes firmware-linux firmware-realtek firmware-ralink firmware-i
 echo "--------------------------------------------"
 echo "Instalando utilitarios..."
 echo "--------------------------------------------"
-apt-get install --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man
+apt-get install --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute
 
 echo "--------------------------------------------"
 echo "Instalando arquivos do LXDE..."
