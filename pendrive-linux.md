@@ -25,7 +25,7 @@ Instalando pacotes necessários:
 2. Instalando sistema debian:
 
 ```
-# debootstrap --foreign --arch amd64 jessie /mnt http://ftp.br.debian.org/debian
+# debootstrap --foreign --arch amd64 stretch /mnt http://ftp.br.debian.org/debian
 ```
 
 3. Forçar gravação no pendrive:
