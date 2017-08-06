@@ -238,3 +238,123 @@ UUID=xxxxxxxxxxx	/boot	vfat	defaults		0	0
 ```
 
 Finalizadas as configurações já é possível dar boot diretamente pela placa.
+
+## Suporte ao Simple Framebuffer 
+
+1. Inserir codigo no final do arquivo u-boot/drivers/video/sunxi/sunxi_de2.c:
+
+```
+/*
+ * Simplefb support.
+ */
+
+#include <fdtdec.h>
+#include <fdt_support.h>
+
+int sunxi_simplefb_setup(void *blob)
+{
+	struct udevice *de2, *hdmi;
+	struct video_priv *de2_priv;
+	struct video_uc_platdata *de2_plat;
+	int mux;
+	int offset, ret;
+	u64 start, size;
+	const char *pipeline = NULL;
+
+	debug("Setting up simplefb\n");
+
+	if (IS_ENABLED(CONFIG_MACH_SUNXI_H3_H5))
+		mux = 0;
+	else
+		mux = 1;
+
+	/* Skip simplefb setting if DE2 / HDMI is not present */
+	ret = uclass_find_device_by_name(UCLASS_VIDEO,
+					 "sunxi_de2", &de2);
+	if (ret) {
+		debug("DE2 not present\n");
+		return 0;
+	}
+
+	ret = uclass_find_device_by_name(UCLASS_DISPLAY,
+					 "sunxi_dw_hdmi", &hdmi);
+	if (ret) {
+		debug("HDMI not present\n");
+		return 0;
+	}
+
+	if(mux == 0)
+		pipeline = "mixer0-lcd0-hdmi";
+	else
+		pipeline = "mixer1-lcd1-hdmi";
+
+	de2_priv = dev_get_uclass_priv(de2);
+	de2_plat = dev_get_uclass_platdata(de2);
+
+	/* Find a prefilled simpefb node, matching out pipeline config */
+	offset = fdt_node_offset_by_compatible(blob, -1,
+					       "allwinner,simple-framebuffer");
+	while (offset >= 0) {
+		ret = fdt_stringlist_search(blob, offset, "allwinner,pipeline",
+					    pipeline);
+		if (ret == 0)
+			break;
+		offset = fdt_node_offset_by_compatible(blob, offset,
+					       "allwinner,simple-framebuffer");
+	}
+	if (offset < 0) {
+		eprintf("Cannot setup simplefb: node not found\n");
+		return 0; /* Keep older kernels working */
+	}
+
+	start = gd->bd->bi_dram[0].start;
+	size = de2_plat->base - start;
+	ret = fdt_fixup_memory_banks(blob, &start, &size, 1);
+	if (ret) {
+		eprintf("Cannot setup simplefb: Error reserving memory\n");
+		return ret;
+	}
+
+	ret = fdt_setup_simplefb_node(blob, offset, de2_plat->base,
+			de2_priv->xsize, de2_priv->ysize,
+			(1 << de2_priv->bpix) / 8 * de2_priv->xsize,
+			"x8r8g8b8");
+
+	eprintf("Cannot setup simplefb: Error reserving memory\n");
+
+	if (ret)
+		eprintf("Cannot setup simplefb: Error setting properties\n");
+
+	return ret;
+}
+```
+
+2. Inserir no final do arquivo u-boot/include/configs/sunxi-common.h (antes do último '#endif'):
+
+```
+#ifdef CONFIG_VIDEO_DE2
+#define CONFIG_VIDEO_DT_SIMPLEFB
+#endif
+```
+
+3. Modificar o arquivo dts do kernel arch/arm/boot/dts/sun8i-h3.dsti:
+
+```
+	chosen {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		framebuffer@0 {
+			compatible = "allwinner,simple-framebuffer",
+				     "simple-framebuffer";
+			allwinner,pipeline = "mixer0-lcd0-hdmi";
+			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_BUS_DE>,
+				 <&ccu CLK_BUS_HDMI>, <&ccu CLK_DE>,
+				 <&ccu CLK_TCON0>, <&ccu CLK_HDMI>;
+			status = "disabled";
+		};
+	};
+```
+
+4. Recompilar o u-boot e o kernel.
