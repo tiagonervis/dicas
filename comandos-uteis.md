@@ -29,3 +29,17 @@ $ 7z a -p -m0=Copy out.7z /diretorio/para/adicionar
 ```
 $ cat /proc/net/dev
 ```
+
+### Monitorar uso CPU, memoria
+
+```
+# apt-get install htop
+$ htop
+```
+
+### Monitorar trafego da rede
+
+```
+# apt-get install bmon
+$ bmon
+```
