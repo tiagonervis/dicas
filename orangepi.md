@@ -75,13 +75,13 @@ $ mkimage -T script -C none -n 'Boot script' -d boot.cmd boot.scr
 1. Descompactando o código fonte do kernel:
 
 ```
-$ tar -xvf linux-4.9.9.tar.xz
+$ tar -xvf linux-4.17.2.tar.xz
 ```
 
 2. Entrando na pasta do kernel
 
 ```
-$ cd linux-4.9.9
+$ cd linux-4.17.2
 ```
 
 3. Caso tenha patchs para aplicar:
@@ -106,9 +106,9 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 
 ```
 > Device Drivers > 
-	Network device support > 
-		Ethernet driver dupport > 
-			<*> Allwinner sun8i EMAC support
+	Common Clock Framework > 
+		[*] Support for the Allwinner SoCs DE2 CCU
+		
 > Device Drivers > 
 	USB support >
 		<*> USB Mass Storage support
@@ -239,9 +239,7 @@ UUID=xxxxxxxxxxx	/boot	vfat	defaults		0	0
 
 Finalizadas as configurações já é possível dar boot diretamente pela placa.
 
-## Suporte ao Simple Framebuffer 
-
-OBS: A partir do kernel 4.17 basta adicionar a configuração "CONFIG_SUN8I_DE2_CCU" para habilitar o HDMI.
+## Suporte ao Simple Framebuffer (obsoleto) 
 
 1. Inserir codigo no final do arquivo u-boot/drivers/video/sunxi/sunxi_de2.c:
 
