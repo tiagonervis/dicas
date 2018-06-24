@@ -81,7 +81,7 @@ $ tar -xvf linux-4.9.9.tar.xz
 2. Entrando na pasta do kernel
 
 ```
-$cd linux-4.9.9
+$ cd linux-4.9.9
 ```
 
 3. Caso tenha patchs para aplicar:
@@ -117,7 +117,7 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 7. Compilando o kernel, os módulos e os arquivos dtb:
 
 ```
-$make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modules
+$ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modules
 ```
 
 8. Instalando os módulos e os firmwares na pasta onde será criado o sistema:
@@ -240,6 +240,8 @@ UUID=xxxxxxxxxxx	/boot	vfat	defaults		0	0
 Finalizadas as configurações já é possível dar boot diretamente pela placa.
 
 ## Suporte ao Simple Framebuffer 
+
+OBS: A partir do kernel 4.17 basta adicionar a configuração "CONFIG_SUN8I_DE2_CCU" para habilitar o HDMI.
 
 1. Inserir codigo no final do arquivo u-boot/drivers/video/sunxi/sunxi_de2.c:
 
