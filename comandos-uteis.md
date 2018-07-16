@@ -43,3 +43,10 @@ $ htop
 # apt-get install bmon
 $ bmon
 ```
+
+### Explorador de arquivos
+
+```
+apt-get install mc
+$ mc
+```
