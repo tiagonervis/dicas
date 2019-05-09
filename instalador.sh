@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.11"
+echo " Script de auto-instalação 0.12"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
 echo " Compatível com: Debian 9 e 10"
@@ -29,7 +29,7 @@ apt-get install --yes firmware-linux firmware-realtek firmware-ralink firmware-i
 echo -e "\e[92m"
 echo "4. Instalando utilitários do sistema..."
 echo -ne "\e[90m"
-apt-get install --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute rsync htop host
+apt-get install --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute rsync htop host bash-completion
 
 echo -e "\e[92m"
 echo "5. Instalando arquivos do LXDE..."
@@ -153,11 +153,11 @@ if [ $tecla = "s" ]; then
 fi
 
 echo -e "\e[95m"
-echo "Instalar servidor apache2 com PHP? [s/n]"
+echo "Instalar servidor nginx com PHP? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes apache2 php-fpm php-pgsql php-mysql php-curl php-json php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug
+  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug
 fi
 
 echo -e "\e[95m"
@@ -171,6 +171,8 @@ if [ $tecla = "s" ]; then
   echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list
   apt-get update
   apt-get install --yes atom
+  curl -sL https://deb.nodesource.com/setup_10.x | bash -
+  apt-get install -y nodejs  
 fi
 
 echo -e "\e[95m"
@@ -203,6 +205,18 @@ echo -ne "\e[90m"
 apt-get remove --yes exim4-base sugar-browse-activity hv3
 apt-get autoremove --yes
 apt-get clean
+
+echo -e "\e[97m"
+echo -n "Criando script de update..."
+echo "
+#!/bin/bash
+apt-get update
+apt-get dist-upgrade --yes
+apt-get autoremove --yes
+apt-get clean
+" > /root/update.sh
+chmod +x /root/update.sh
+echo "OK"
 
 echo -e "\e[97m"
 echo -n "Ajustando interfaces de rede..."
