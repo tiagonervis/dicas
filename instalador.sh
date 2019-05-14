@@ -1,10 +1,10 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.12"
+echo " Script de auto-instalação 0.13"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
-echo " Compatível com: Debian 9 e 10"
+echo " Compatível com Debian 10 (Buster)"
 echo "--------------------------------------------"
 echo -e "\e[97m"
 echo -n "Pressione uma tecla para iniciar..."
@@ -39,7 +39,7 @@ apt-get install --yes --no-install-recommends lxde
 echo -e "\e[92m"
 echo "6. Instalando ambiente gráfico X..."
 echo -ne "\e[90m"
-apt-get install --yes xserver-xorg lightdm ttf-dejavu ttf-bitstream-vera pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all
+apt-get install --yes xserver-xorg lightdm ttf-dejavu ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all
 
 echo -e "\e[92m"
 echo "7. Instalando aplicativos comuns..."
@@ -93,7 +93,7 @@ echo -e "\e[92m"
 echo "12. Instalando LibreOffice..."
 echo -ne "\e[90m"
 echo -n "Obtendo última versão..."
-versao=$(curl --silent "http://tdf.c3sl.ufpr.br/libreoffice/stable/?C=M;O=D" | grep -o '[0-9].[0-9].[0-9]' | head -1)
+versao=$(curl --silent "http://tdf.c3sl.ufpr.br/libreoffice/stable/?C=N;O=D" | grep -o '[0-9].[0-9].[0-9]' | head -1)
 echo $versao
 apt-get install --yes libglu1-mesa
 wget "http://tdf.c3sl.ufpr.br/libreoffice/stable/"$versao"/deb/x86_64/LibreOffice_"$versao"_Linux_x86-64_deb_langpack_pt-BR.tar.gz"
@@ -111,8 +111,10 @@ echo "Instalar utilitários para notebook? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes blueman xserver-xorg-input-synaptics
-  apt-get install --yes camorama
+  apt-get install --yes blueman xserver-xorg-input-synaptics cheese
+  usuario=$(getent passwd 1000 | cut -d: -f1)
+  echo "numlockx
+  synclient TapButton1=1" >> /home/$usuario/.config/lxsession/LXDE/autostart
 fi
 
 echo -e "\e[95m"
@@ -140,16 +142,14 @@ if [ $tecla = "s" ]; then
 fi
 
 echo -e "\e[95m"
-echo "Instalar Java JDK 8 e suporte a smart-cards? [s/n]"
+echo "Instalar Java 8 e suporte a smart-cards? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes dirmngr pcscd libpcsclite-dev
-  echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee /etc/apt/sources.list.d/webupd8team-java.list
-  echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list
-  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+  dpkg --add-architecture i386
+  echo "deb http://ftp.br.debian.org/debian/ stretch main" >> /etc/apt/sources.list
   apt-get update
-  apt-get install --yes --allow-unauthenticated oracle-java8-installer
+  apt-get install --yes dirmngr pcscd libpcsclite-dev openjdk-8-jre
 fi
 
 echo -e "\e[95m"
@@ -197,6 +197,35 @@ if [ $tecla = "s" ]; then
   Type=Application
   Categories=Network;WebBrowser" > /usr/share/applications/firefox-dev.desktop
   chmod 777 /usr/share/applications/firefox-dev.desktop
+fi
+
+echo -e "\e[95m"
+echo "Configurar teclas para ajuste de brilho intel? [s/n]"
+read -rsn1 tecla
+if [ $tecla = "s" ]; then
+  echo -ne "\e[90m"
+  apt-get install --yes acpid
+  update-rc.d acpid enable
+  echo "ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chgrp video /sys/class/backlight/%k/brightness\"
+  ACTION==\"add\", SUBSYSTEM==\"backlight\", KERNEL==\"intel_backlight\", RUN+=\"/bin/chmod g+w /sys/class/backlight/%k/brightness\"" > /etc/udev/rules.d/backlight.rules
+  echo "#!/bin/bash
+  maximo=\$(cat /sys/class/backlight/intel_backlight/max_brightness)
+  atual=\$(cat /sys/class/backlight/intel_backlight/actual_brightness)
+  if [ \$1 = \"mais\" ]; then
+  novo=\$((atual + (maximo / 10)))
+  else
+  novo=\$((atual - (maximo / 10)))
+  fi
+  if [ \$novo -lt \$maximo ]; then
+  echo \$novo > /sys/class/backlight/intel_backlight/brightness
+  else
+  echo \$maximo > /sys/class/backlight/intel_backlight/brightness
+  fi" > /etc/acpi/intel-backlight.sh
+  chmod +x /etc/acpi/intel-backlight.sh
+  echo "event=video/brightnessup BRTUP 00000086 00000000
+  action=/etc/acpi/intel-backlight.sh mais" > /etc/acpi/events/backlight-mais
+  echo "event=video/brightnessdown BRTDN 00000087 00000000
+  action=/etc/acpi/intel-backlight.sh menos" > /etc/acpi/events/backlight-menos
 fi
 
 echo -e "\e[97m"
