@@ -4,7 +4,7 @@ echo "--------------------------------------------"
 echo " Script de auto-instalação 0.13"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
-echo " Compatível com Debian 10 (Buster)"
+echo " Compatível com Debian 11 (Bullseye)"
 echo "--------------------------------------------"
 echo -e "\e[97m"
 echo -n "Pressione uma tecla para iniciar..."
@@ -29,22 +29,22 @@ apt-get install --yes firmware-linux firmware-realtek firmware-ralink firmware-i
 echo -e "\e[92m"
 echo "4. Instalando utilitários do sistema..."
 echo -ne "\e[90m"
-apt-get install --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute rsync htop host bash-completion
+apt-get install ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute htop host bash-completion
 
 echo -e "\e[92m"
 echo "5. Instalando arquivos do LXDE..."
 echo -ne "\e[90m"
-apt-get install --yes --no-install-recommends lxde
+apt-get install --no-install-recommends lxde
 
 echo -e "\e[92m"
 echo "6. Instalando ambiente gráfico X..."
 echo -ne "\e[90m"
-apt-get install --yes xserver-xorg lightdm ttf-dejavu ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all
+apt-get install xserver-xorg lightdm fonts-dejavu-extra ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all 
 
 echo -e "\e[92m"
 echo "7. Instalando aplicativos comuns..."
 echo -ne "\e[90m"
-apt-get install --yes gimp vlc xfburn pavucontrol gparted evince gnome-screenshot synaptic lxsession-default-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good lxhotkey-plugin-openbox numlockx
+apt-get install gimp vlc xfburn pavucontrol gparted evince gnome-screenshot synaptic lxsession-default-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good lxhotkey-plugin-openbox numlockx
 
 echo -e "\e[92m"
 echo "8. Desabilitando decorador de janela do GTK3..."
@@ -149,7 +149,7 @@ if [ $tecla = "s" ]; then
   dpkg --add-architecture i386
   echo "deb http://ftp.br.debian.org/debian/ stretch main" >> /etc/apt/sources.list
   apt-get update
-  apt-get install --yes dirmngr pcscd libpcsclite-dev openjdk-8-jre
+  apt-get install --yes dirmngr pcscd libpcsclite-dev sudo openjdk-8-jre
 fi
 
 echo -e "\e[95m"
@@ -157,7 +157,7 @@ echo "Instalar servidor nginx com PHP? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug
+  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-apcu-bc php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug
 fi
 
 echo -e "\e[95m"
@@ -165,14 +165,30 @@ echo "Instalar utilitários de desenvolvedor? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes git meld filezilla pgadmin3
-  curl -sL https://deb.nodesource.com/setup_12.x | bash - apt-get install -y nodejs
-  wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
-  echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list
+  apt-get install --yes git meld filezilla awscli redis-server
+  curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+  apt-get install --yes nodejs
+  apt-get install --yes apt-transport-https ca-certificates gnupg lsb-release
+  curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
   apt-get update
-  apt-get install --yes atom
-  curl -sL https://deb.nodesource.com/setup_10.x | bash -
-  apt-get install -y nodejs  
+  apt-get install --yes docker-ce docker-ce-cli containerd.io
+  wget "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O vscode.deb
+  dpkg -i vscode.deb
+  rm vscode.deb
+  echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+  apt-get update
+  apt-get -y install postgresql-13
+fi
+
+echo -e "\e[95m"
+echo "Instalar Google Chrome? [s/n]"
+read -rsn1 tecla
+if [ $tecla = "s" ]; then
+  echo -ne "\e[90m"
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  dpkg -i google-chrome-stable_current_amd64.deb
 fi
 
 echo -e "\e[95m"
