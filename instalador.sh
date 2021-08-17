@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.14"
+echo " Script de auto-instalação 0.13"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
 echo " Compatível com Debian 11 (Bullseye)"
@@ -157,7 +157,7 @@ echo "Instalar servidor nginx com PHP? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-apcu-bc php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug
+  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-apcu-bc php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug php-imagick
 fi
 
 echo -e "\e[95m"
@@ -165,9 +165,10 @@ echo "Instalar utilitários de desenvolvedor? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes git meld filezilla awscli redis-server
+  apt-get install --yes git meld filezilla awscli redis-server composer
   curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
   apt-get install --yes nodejs
+  npm -g install gulp
   apt-get install --yes apt-transport-https ca-certificates gnupg lsb-release
   curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
