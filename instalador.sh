@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.13"
+echo " Script de auto-instalação 0.14"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
 echo " Compatível com Debian 11 (Bullseye)"
@@ -181,6 +181,8 @@ if [ $tecla = "s" ]; then
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
   apt-get update
   apt-get -y install postgresql-13
+  echo fs.inotify.max_user_watches=524288 | tee /etc/sysctl.d/40-max-user-watches.conf
+  sysctl --system
 fi
 
 echo -e "\e[95m"
