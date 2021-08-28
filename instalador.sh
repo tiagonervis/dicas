@@ -29,22 +29,22 @@ apt-get install --yes firmware-linux firmware-realtek firmware-ralink firmware-i
 echo -e "\e[92m"
 echo "4. Instalando utilitários do sistema..."
 echo -ne "\e[90m"
-apt-get install ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute htop host bash-completion
+apt-get install  --yes ntfs-3g dcfldd ntp nmap whois dnsutils telnet openssh-client unrar unzip zip bzip2 p7zip-full xz-utils bing net-tools man traceroute wget curl traceroute htop host bash-completion
 
 echo -e "\e[92m"
 echo "5. Instalando arquivos do LXDE..."
 echo -ne "\e[90m"
-apt-get install --no-install-recommends lxde
+apt-get install --yes --no-install-recommends lxde
 
 echo -e "\e[92m"
 echo "6. Instalando ambiente gráfico X..."
 echo -ne "\e[90m"
-apt-get install xserver-xorg lightdm fonts-dejavu-extra ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all 
+apt-get install  --yes xserver-xorg lightdm fonts-dejavu-extra ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all 
 
 echo -e "\e[92m"
 echo "7. Instalando aplicativos comuns..."
 echo -ne "\e[90m"
-apt-get install gimp vlc xfburn pavucontrol gparted evince gnome-screenshot synaptic lxsession-default-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good lxhotkey-plugin-openbox numlockx
+apt-get install  --yes gimp vlc xfburn pavucontrol gparted evince gnome-screenshot synaptic lxsession-default-apps gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-plugins-good lxhotkey-plugin-openbox numlockx
 
 echo -e "\e[92m"
 echo "8. Desabilitando decorador de janela do GTK3..."
