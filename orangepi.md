@@ -75,13 +75,13 @@ $ mkimage -T script -C none -n 'Boot script' -d boot.cmd boot.scr
 1. Descompactando o código fonte do kernel:
 
 ```
-$ tar -xvf linux-4.17.2.tar.xz
+$ tar -xvf linux-<versao>
 ```
 
 2. Entrando na pasta do kernel
 
 ```
-$ cd linux-4.17.2
+$ cd linux-<versao>
 ```
 
 3. Caso tenha patchs para aplicar:
@@ -150,7 +150,7 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modu
 2. Instalando o sistema arquitetura ARM:
 
 ```
-# debootstrap --foreign --arch armhf stretch rootfs/ http://ftp.br.debian.org/debian
+# debootstrap --foreign --arch armhf <versao> rootfs/ http://ftp.br.debian.org/debian
 ```
 
 3. Copiando emulador ARM:
