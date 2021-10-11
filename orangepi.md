@@ -174,7 +174,7 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modu
 6. Gravando repositórios em rootfs/etc/apt/sources.list:
 
 ``` 
-deb http://deb.debian.org/debian stretch main contrib non-free
+deb http://deb.debian.org/debian <versao> main contrib non-free
 ```
 
 7. Configurando arquivo rootfs/etc/fstab:
