@@ -7,7 +7,7 @@ Procedimentos para compilar o u-boot, o kernel e instalar o GNU/Debian num cart�
 1. Instação de todos os pacotes necessários para compilar o kernel e o u-boot:
 
 ```
-# apt-get install bc curl gcc git libncurses5-dev lzop make u-boot-tools gcc-arm-linux-gnueabihf device-tree-compiler swig libpython-dev bison flex python3-dev python3-distutils
+# apt-get install bc curl gcc git libncurses5-dev lzop make u-boot-tools gcc-arm-linux-gnueabihf device-tree-compiler swig libssl-dev bison flex python3-dev python3-distutils
 ```
 
 2. Crie 2 partições no cartão de memória:
