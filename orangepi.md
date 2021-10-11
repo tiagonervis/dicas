@@ -108,6 +108,11 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 > Device Drivers > 
 	Common Clock Framework > 
 		[*] Support for the Allwinner SoCs DE2 CCU
+> Device Drivers > 
+	Graphics support >
+		Frame buffer Devices  --->
+			<*> Support for frame buffer devices  --->
+				[*] Enable firmware EDID
 		
 > Device Drivers > 
 	USB support >
