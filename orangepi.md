@@ -150,7 +150,7 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- -j4 zImage dtbs modu
 2. Instalando o sistema arquitetura ARM:
 
 ```
-# debootstrap --foreign --arch armhf <versao> rootfs/ http://ftp.br.debian.org/debian
+# debootstrap --foreign --arch armhf <versao> rootfs/ http://deb.debian.org/debian
 ```
 
 3. Copiando emulador ARM:
