@@ -105,18 +105,27 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 6. Selecione as opções do kernel no menu:
 
 ```
-> Device Drivers > 
-	Common Clock Framework > 
+> Networking support  --->
+	[*]   Wireless  --->
+		<*>   cfg80211 - wireless configuration API
+		[*]     cfg80211 wireless extensions compatibility
+		<*>   Generic IEEE 802.11 Networking Stack (mac80211)
+
+> Device Drivers --->
+	Common Clock Framework --->
 		[*] Support for the Allwinner SoCs DE2 CCU
-> Device Drivers > 
-	Graphics support >
+
+	Graphics support--->
 		Frame buffer Devices  --->
 			<*> Support for frame buffer devices  --->
 				[*] Enable firmware EDID
-		
-> Device Drivers > 
-	USB support >
+	USB support --->
 		<*> USB Mass Storage support
+
+	Network device support --->
+		[*]   Wireless LAN  --->
+			[*]   MediaTek devices (NEW)
+			<*>     MediaTek MT7601U (USB) support
 ```
 
 7. Compilando o kernel, os módulos e os arquivos dtb:
@@ -218,7 +227,7 @@ UUID=xxxxxxxxxxx	/boot	vfat	defaults		0	0
 12. Instalando pacotes básicos:
 
 ```
-# apt-get install ntp openssh-server usbutils bzip2
+# apt-get install ntp openssh-server usbutils bzip2 bash-completion firmware-misc-nonfree wpasupplicant wireless-tools
 ```
 
 13. Parando serviços em execução:
