@@ -110,6 +110,13 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 		<*>   cfg80211 - wireless configuration API
 		[*]     cfg80211 wireless extensions compatibility
 		<*>   Generic IEEE 802.11 Networking Stack (mac80211)
+	Networking options > 
+		<*> 802.1d Ethernet Bridging
+		[*] Network packet filtering framework (Netfilter) > 
+			IP: Netfilter Configuration >
+				<*> IP tables support (required for filtering/masq/NAT)	
+			<*>   Ethernet Bridge tables (ebtables) support  --->
+				<*>   ebt: filter table support
 
 > Device Drivers --->
 	Common Clock Framework --->
@@ -126,6 +133,12 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 		[*]   Wireless LAN  --->
 			[*]   MediaTek devices (NEW)
 			<*>     MediaTek MT7601U (USB) support
+			
+> File systems
+	<*> Overlay filesystem support
+
+> General setup 
+	[*] System V IPC
 ```
 
 7. Compilando o kernel, os módulos e os arquivos dtb:
