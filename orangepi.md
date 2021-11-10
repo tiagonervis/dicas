@@ -110,13 +110,19 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 		<*>   cfg80211 - wireless configuration API
 		[*]     cfg80211 wireless extensions compatibility
 		<*>   Generic IEEE 802.11 Networking Stack (mac80211)
-	Networking options > 
-		<*> 802.1d Ethernet Bridging
-		[*] Network packet filtering framework (Netfilter) > 
-			IP: Netfilter Configuration >
+> Networking support 
+	> Networking options 
+		> Network packet filtering framework (Netfilter) 
+			> Core Netfilter Configuration
+				<*> Netfilter nf_tables support
+				[*]   Netfilter nf_tables netdev tables support
+			 IP: Netfilter Configuration
 				<*> IP tables support (required for filtering/masq/NAT)	
-			<*>   Ethernet Bridge tables (ebtables) support  --->
+				<*>   Ethernet Bridge tables (ebtables) support  --->
 				<*>   ebt: filter table support
+				[*] IPv4 nf_tables support
+				[*] ARP nf_tables support
+		<*>   Ethernet Bridge nf_tables support  --->
 
 > Device Drivers --->
 	Common Clock Framework --->
