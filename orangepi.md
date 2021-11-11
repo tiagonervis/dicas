@@ -145,6 +145,7 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 
 > Networking support 
 	> Networking options 
+		<*>   The IPv6 protocol  --->
 		> Network packet filtering framework (Netfilter) 
 			<*>   Ethernet Bridge nf_tables support  --->
 			> Core Netfilter Configuration
