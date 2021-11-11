@@ -110,19 +110,6 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 		<*>   cfg80211 - wireless configuration API
 		[*]     cfg80211 wireless extensions compatibility
 		<*>   Generic IEEE 802.11 Networking Stack (mac80211)
-> Networking support 
-	> Networking options 
-		> Network packet filtering framework (Netfilter) 
-			> Core Netfilter Configuration
-				<*> Netfilter nf_tables support
-				[*]   Netfilter nf_tables netdev tables support
-			 IP: Netfilter Configuration
-				<*> IP tables support (required for filtering/masq/NAT)	
-				<*>   Ethernet Bridge tables (ebtables) support  --->
-				<*>   ebt: filter table support
-				[*] IPv4 nf_tables support
-				[*] ARP nf_tables support
-		<*>   Ethernet Bridge nf_tables support  --->
 
 > Device Drivers --->
 	Common Clock Framework --->
@@ -138,13 +125,51 @@ $ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- menuconfig
 	Network device support --->
 		[*]   Wireless LAN  --->
 			[*]   MediaTek devices (NEW)
-			<*>     MediaTek MT7601U (USB) support
-			
+			<*>     MediaTek MT7601U (USB) support		
+```
+
+6.1 Opcional para suporte ao Docker:
+
+```
+> General setup
+	[*] System V IPC
+	[*] POSIX Message Queues 
+	> BPF subsystem
+		[*] Enable bpf() system call
+	[*] Control Group support  --->
+		[*]   Support for eBPF programs attached to cgroups
+
 > File systems
 	<*> Overlay filesystem support
 
-> General setup 
-	[*] System V IPC
+
+> Networking support 
+	> Networking options 
+		> Network packet filtering framework (Netfilter) 
+			<*>   Ethernet Bridge nf_tables support  --->
+			> Core Netfilter Configuration
+				<*> Netfilter nf_tables support
+				[*]   Netfilter nf_tables netdev tables support
+				<*> Netfilter connection tracking support
+				<*> Network Address Translation support
+				<*>   Netfilter nf_tables nat module
+				<*>   "addrtype" address type match support
+				<*>   "conntrack" connection tracking match support
+			> IP: Netfilter Configuration
+				<*> IP tables support (required for filtering/masq/NAT)	
+				<*>   Ethernet Bridge tables (ebtables) support  --->
+				<*>   ebt: filter table support
+				[*] IPv4 nf_tables support
+				[*] ARP nf_tables support
+				<*>   Packet filtering
+				<*>   iptables NAT support
+				<*>     MASQUERADE target support 
+
+
+> Device Drivers 
+	> Network device support
+		<*>     Virtual ethernet pair device 
+
 ```
 
 7. Compilando o kernel, os módulos e os arquivos dtb:
