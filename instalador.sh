@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.14"
+echo " Script de auto-instalação 0.15"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
 echo " Compatível com Debian 11 (Bullseye)"
@@ -264,6 +264,16 @@ apt-get autoremove --yes
 apt-get clean
 " > /root/update.sh
 chmod +x /root/update.sh
+echo "[Desktop Entry]
+Name=Atualizar Sistema
+GenericName=Atualizar Sistema
+Comment=Atualizar Sistema
+Exec=pkexec env DISPLAY=\$DISPLAY XAUTHORITY=\$XAUTHORITY /root/update.sh
+Terminal=true
+Icon=reload
+Type=Application
+Categories=System" > /usr/share/applications/atualizar.desktop
+chmod 777 /usr/share/applications/atualizar.desktop
 echo "OK"
 
 echo -e "\e[97m"
