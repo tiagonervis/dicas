@@ -1,10 +1,10 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.15"
+echo " Script de auto-instalação 0.16"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
-echo " Compatível com Debian 11 (Bullseye)"
+echo " Compatível com Debian 12 (Bookworm)"
 echo "--------------------------------------------"
 echo -e "\e[97m"
 echo -n "Pressione uma tecla para iniciar..."
@@ -39,7 +39,7 @@ apt-get install --yes --no-install-recommends lxde
 echo -e "\e[92m"
 echo "6. Instalando ambiente gráfico X..."
 echo -ne "\e[90m"
-apt-get install  --yes xserver-xorg lightdm fonts-dejavu-extra ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-standard xserver-xorg-input-all 
+apt-get install  --yes xserver-xorg lightdm fonts-dejavu-extra ttf-bitstream-vera fonts-liberation fonts-liberation2 pulseaudio network-manager-gnome network-manager network-manager-ssh gvfs-fuse gvfs-backends obconf xscreensaver lxtask mesa-utils lxde-icon-theme gnome-icon-theme lxde-common desktop-base gnome-themes-extra xserver-xorg-input-all 
 
 echo -e "\e[92m"
 echo "7. Instalando aplicativos comuns..."
@@ -142,14 +142,11 @@ if [ $tecla = "s" ]; then
 fi
 
 echo -e "\e[95m"
-echo "Instalar Java 8 e suporte a smart-cards? [s/n]"
+echo "Instalar suporte a smart-cards? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  dpkg --add-architecture i386
-  echo "deb http://ftp.br.debian.org/debian/ stretch main" >> /etc/apt/sources.list
-  apt-get update
-  apt-get install --yes dirmngr pcscd libpcsclite-dev sudo openjdk-8-jre
+  apt-get install --yes dirmngr pcscd libpcsclite-dev
 fi
 
 echo -e "\e[95m"
@@ -157,7 +154,7 @@ echo "Instalar servidor nginx com PHP? [s/n]"
 read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
-  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-apcu-bc php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug php-imagick
+  apt-get install --yes nginx php-fpm php-pgsql php-mysql php-curl php-json php-apcu php-mbstring php-soap php-simplexml php-zip php-intl php-bz2 php-redis php-memcached php-xdebug php-imagick
 fi
 
 echo -e "\e[95m"
@@ -166,7 +163,7 @@ read -rsn1 tecla
 if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
   apt-get install --yes git meld filezilla awscli redis-server composer
-  curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+  curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
   apt-get install --yes nodejs
   npm -g install gulp
   apt-get install --yes apt-transport-https ca-certificates gnupg lsb-release
@@ -180,7 +177,7 @@ if [ $tecla = "s" ]; then
   echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
   apt-get update
-  apt-get -y install postgresql-13
+  apt-get -y install postgresql-15
   echo fs.inotify.max_user_watches=524288 | tee /etc/sysctl.d/40-max-user-watches.conf
   sysctl --system
 fi
@@ -192,6 +189,7 @@ if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   dpkg -i google-chrome-stable_current_amd64.deb
+  apt-get -f install
 fi
 
 echo -e "\e[95m"
