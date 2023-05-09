@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[96m"
 echo "--------------------------------------------"
-echo " Script de auto-instalação 0.16"
+echo " Script de auto-instalação 0.17"
 echo "--------------------------------------------"
 echo " Autor: Tiago Nervis"
 echo " Compatível com Debian 12 (Bookworm)"
@@ -189,7 +189,7 @@ if [ $tecla = "s" ]; then
   echo -ne "\e[90m"
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   dpkg -i google-chrome-stable_current_amd64.deb
-  apt-get -f install
+  apt-get -f install -y
 fi
 
 echo -e "\e[95m"
