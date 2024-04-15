@@ -93,7 +93,7 @@ echo -e "\e[92m"
 echo "12. Instalando LibreOffice..."
 echo -ne "\e[90m"
 echo -n "Obtendo última versão..."
-versao=$(curl --silent "http://tdf.c3sl.ufpr.br/libreoffice/stable/?C=N;O=D" | grep -o '[0-9].[0-9].[0-9]' | head -1)
+versao=$(curl --silent "http://tdf.c3sl.ufpr.br/libreoffice/stable/?C=N;O=D" | grep -o '[0-9][0-9].[0-9].[0-9]' | head -1)
 echo $versao
 apt-get install --yes libglu1-mesa
 wget "http://tdf.c3sl.ufpr.br/libreoffice/stable/"$versao"/deb/x86_64/LibreOffice_"$versao"_Linux_x86-64_deb_langpack_pt-BR.tar.gz"
